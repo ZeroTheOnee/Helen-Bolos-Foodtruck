@@ -1,0 +1,9 @@
+/* ========================================
+   Footer - Rodapé
+   ======================================== */
+
+.footer {
+  padding: 34px 0;
+  color: var(--muted);
+  text-align: center;
+}

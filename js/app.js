@@ -1,0 +1,532 @@
+/* ========================================
+   App - Aplicação Principal Foodtruck
+   ======================================== */
+
+// Configurações
+const WHATSAPP_NUMBER = "558881199399"; // Helen Bolos & Foodtruck
+
+const categories = [
+  { id: "hamburgueres", name: "Hambúrgueres" },
+  { id: "combos", name: "Combos" },
+  { id: "pizzas", name: "Pizzas" },
+  { id: "bolos", name: "Bolos" },
+  { id: "bebidas", name: "Bebidas" },
+  { id: "beirutes", name: "Beirutes" },
+  { id: "batatas", name: "Batatas" }
+];
+
+const products = [
+  // Combos
+  {
+    id: 100,
+    category: "combos",
+    name: "Combo 1",
+    description: "2x Burguer + 2 Refri 250ml + Batata M.",
+    price: 46.00,
+    tag: "combo"
+  },
+  {
+    id: 101,
+    category: "combos",
+    name: "Combo 2",
+    description: "1 X-Salada + 1 Coca lata + Batata P.",
+    price: 29.00,
+    tag: "combo"
+  },
+  {
+    id: 102,
+    category: "combos",
+    name: "Combo 3",
+    description: "1 X-tudo + 1 X-Bacon + batata P + 1 Refri 600ml.",
+    price: 65.00,
+    tag: "combo"
+  },
+  {
+    id: 103,
+    category: "combos",
+    name: "Combo 4",
+    description: "1 X-Egg, 1 X-Calabresa + 2 Batata M + Coca 600ml.",
+    price: 58.00,
+    tag: "combo"
+  },
+  {
+    id: 1,
+    category: "hamburgueres",
+    name: "American Burger",
+    description: "Pão, hambúrguer, cheddar, bacon, maionese temperada, cebola caramelizada, alface, tomate.",
+    price: 18.50,
+    tag: "Mais pedido"
+  },
+  {
+    id: 2,
+    category: "hamburgueres",
+    name: "X-Burger",
+    description: "Pão, hambúrguer, queijo",
+    price: 10.00,
+    tag: "Premium"
+  },
+  {
+    id: 3,
+    category: "hamburgueres",
+    name: "X-Salada",
+    description: "Pão, hambúrguer, queijo, alface, tomate, maionese",
+    price: 11.00,
+    tag: "Crocante"
+  },
+  {
+    id: 4,
+    category: "pizzas",
+    name: "Pizza 4 Fatias",
+    description: "sabores disponiveis - Pernil com mussarela, Portuguesa, Frango com catupiry, Calabresa, Baiana, 3 Queijos.",
+    price: 28.00,
+    tag: "4 fatias"
+  },
+  {
+    id: 5,
+    category: "pizzas",
+    name: "Pizza 8 Fatias",
+    description: "sabores disponiveis - Pernil com mussarela, Portuguesa, Frango com catupiry, Calabresa, Baiana, 3 Queijos.",
+    price: 39.00,
+    tag: "8 fatias"
+  },
+  {
+    id: 16,
+    category: "hamburgueres",
+    name: "X-Tudo",
+    description: "Pão, hambúrguer, queijo, alface, tomate, maionese, bacon, ovo, calabresa",
+    price: 20.00,
+    tag: "Tudo"
+  },
+  {
+    id: 17,
+    category: "hamburgueres",
+    name: "X-Egg",
+    description: "Pão, hambúrguer, queijo, ovo, alface, tomate, maionese",
+    price: 13.50,
+    tag: "Egg"
+  },
+  {    id: 18,
+    category: "hamburgueres",
+    name: "X-Bacon",
+    description: "Pão, hambúrguer, queijo, bacon, alface, tomate, maionese",
+    price: 17.00,
+    tag: "Bacon"
+  },
+  {    id: 19,
+    category: "hamburgueres",
+    name: "X-Pernil",
+    description: "Pão, hambúrguer, queijo, pernil desfiado, alface, tomate, maionese",
+    price: 16.00,
+    tag: "Pernil"
+  },
+  {
+    id: 20,
+    category: "hamburgueres",
+    name: "X-Duplo",
+    description: "Pão, hambúrguer 2x, queijo 2x, alface, tomate, maionese",
+    price: 20.00,
+    tag: "Duplo"
+  },
+  {
+    id: 21,
+    category: "hamburgueres",
+    name: "X-Tudo Duplo",
+    description: "Pão, hambúrguer 2x, queijo 2x, bacon 2x, calabresa 2x, ovo 2x, alface, tomate, maionese",
+    price: 29.90,
+    tag: "Tudo Duplo"
+  },
+  {
+    id: 22,
+    category: "hamburgueres",
+    name: "Americano",
+    description: "Pão, hambúrguer, maionese, alface, tomate",
+    price: 8.00,
+    tag: "Mais pedido"
+  },
+  {
+    id: 23,
+    category: "hamburgueres",
+    name: "Bauru",
+    description: "Presunto, queijo, tomate, orégano",
+    price: 7.00,
+    tag: "Popular"
+  },
+  {
+    id: 24,
+    category: "hamburgueres",
+    name: "Misto Quente",
+    description: "Presunto, queijo",
+    price: 6.00,
+    tag: "Popular"
+  },
+  {
+    id: 6,
+    category: "bolos",
+    name: "fatia de bolo",
+    description: "Bolo fatiado, consulte os sabores disponíveis no momento do pedido.",
+    price: 9.50,
+    tag: "Fatia"
+  },
+
+  
+  {
+    id: 9,
+    category: "bebidas",
+    name: "Refrigerante Lata",
+    description: "Consulte os sabores disponíveis no momento do pedido.",
+    price: 5.00,
+    tag: "Gelado"
+  },
+  {
+    id: 10,
+    category: "bebidas",
+    name: "refri 2L",
+    description: "Sabores selecionados, feito na hora quando disponível.",
+    price: 14.00,
+    tag: "2 Litros"
+  },
+  {
+    id: 11,
+    category: "bebidas",
+    name: "coca-cola 2L",
+    description: "coca-cola de 2 litros, sabor original.",
+    price: 16.00,
+    tag: "2 Litros"
+  },
+  {
+    id: 12,
+    category: "bebidas",
+    name: "coca-cola 600ml",
+    description: "coca-cola de 600ml, sabor original.",
+    price: 9.50,
+    tag: "600ml"
+  },
+  {
+    id: 13,
+    category: "bebidas",
+    name: "guaraná 1L",
+    description: "guaraná de 1 litro, sabor original.",
+    price: 9.00,
+    tag: "1 Litro"
+  },
+  {
+    id: 14,
+    category: "bebidas",
+    name: "cerveja",
+    description: "cerveja sabor original.",
+    price: 12.00,
+    tag: "Gelada"
+  },
+  {
+    id: 15,
+    category: "bebidas",
+    name: "refri 250ml",
+    description: "refrigerante de 250ml, sabor original.",
+    price: 3.00,
+    tag: "Gelado"
+  },
+  // Beirutes
+  {
+    id: 25,
+    category: "beirutes",
+    name: "Beirute 8 Fatias",
+    description: "Beirute grande com 8 fatias - sabores disponiveis - pernil, frango, calabresa e americano.",
+    price: 39.00,
+    tag: "8 fatias"
+  },
+  {
+    id: 26,
+    category: "beirutes",
+    name: "Beirute 4 Fatias",
+    description: "Beirute médio com 4 fatias  - sabores disponiveis - pernil, frango, calabresa e americano.",
+    price: 28.00,
+    tag: "4 fatias"
+  },
+  {
+    id: 27,
+    category: "beirutes",
+    name: "Beirute Individual",
+    description: "Beirute individual  - sabores disponiveis - pernil, frango, calabresa e americano.",
+    price: 20.00,
+    tag: "Individual"
+  },
+{
+    id: 8,
+    category: "beirutes",
+    name: "tudao artesanal",
+    description: "acompanha batata frita.",
+    price: 33.99,
+    tag: "Tudão"
+},
+  // Batatas
+  {
+    id: 28,
+    category: "batatas",
+    name: "Batata Porção Pequena",
+    description: "Batata frita crocante - porção individual",
+    price: 13.00,
+    tag: "Porção"
+  },
+  {
+    id: 29,
+    category: "batatas",
+    name: "Batata Média",
+    description: "Batata frita crocante - porção média",
+    price: 19.00,
+    tag: "Porção"
+  },
+  {
+    id: 30,
+    category: "batatas",
+    name: "Batata com Cheddar e Bacon",
+    description: "Batata frita coberta com cheddar e bacon",
+    price: 28.00,
+    tag: "Especial"
+  },
+  {
+    id: 31,
+    category: "batatas",
+    name: "Batata Frita Grande Completa",
+    description: "Batata frita completa com cheddar, bacon, calabresa, milho, ervilha e maionese",
+    price: 39.00,
+    tag: "Gigante"
+  },
+];
+
+// Estado
+let activeCategory = "hamburgueres";
+let cart = [];
+
+// Elementos DOM
+const categoryTabs = document.getElementById("categoryTabs");
+const productsGrid = document.getElementById("productsGrid");
+const searchInput = document.getElementById("searchInput");
+const cartContent = document.getElementById("cartContent");
+const cartTotal = document.getElementById("cartTotal");
+const cartCountHeader = document.getElementById("cartCountHeader");
+const finishOrderBtn = document.getElementById("finishOrderBtn");
+const customerName = document.getElementById("customerName");
+const deliveryType = document.getElementById("deliveryType");
+const addressGroup = document.getElementById("addressGroup");
+const address = document.getElementById("address");
+const note = document.getElementById("note");
+const toast = document.getElementById("toast");
+
+// Funções Utilitárias
+function formatCurrency(value) {
+  if (!value) return "Consultar";
+
+  return value.toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL"
+  });
+}
+
+function showToast(message) {
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 1800);
+}
+
+// Renderização
+function renderCategories() {
+  categoryTabs.innerHTML = categories.map(category => `
+    <button class="category-btn ${category.id === activeCategory ? "active" : ""}" onclick="changeCategory('${category.id}')">
+      ${category.name}
+    </button>
+  `).join("");
+}
+
+function renderProducts() {
+  const searchTerm = searchInput.value.toLowerCase();
+
+  const filteredProducts = products.filter(product => {
+    const matchesCategory = product.category === activeCategory;
+    const matchesSearch = product.name.toLowerCase().includes(searchTerm) ||
+      product.description.toLowerCase().includes(searchTerm);
+
+    return matchesCategory && matchesSearch;
+  });
+
+  if (filteredProducts.length === 0) {
+    productsGrid.innerHTML = `
+      <div class="empty-cart">
+        Nenhum item encontrado nessa categoria.
+      </div>
+    `;
+    return;
+  }
+
+  productsGrid.innerHTML = filteredProducts.map(product => `
+    <article class="product-card">
+      <div class="product-top">
+        <div>
+          <h3>${product.name}</h3>
+          <p>${product.description}</p>
+        </div>
+        <span class="product-tag">${product.tag}</span>
+      </div>
+
+      <div class="product-bottom">
+        <strong class="price">${formatCurrency(product.price)}</strong>
+        <button class="add-btn" onclick="addToCart(${product.id})">+</button>
+      </div>
+    </article>
+  `).join("");
+}
+
+function renderCart() {
+  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+  cartCountHeader.textContent = totalItems;
+  cartTotal.textContent = total.toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL"
+  });
+
+  finishOrderBtn.disabled = cart.length === 0;
+
+  if (cart.length === 0) {
+    cartContent.innerHTML = `
+      <div class="empty-cart">
+        Seu carrinho está vazio. Escolha um item do cardápio para começar.
+      </div>
+    `;
+    return;
+  }
+
+  cartContent.innerHTML = `
+    <div class="cart-items">
+      ${cart.map(item => `
+        <div class="cart-item">
+          <div>
+            <strong>${item.name}</strong>
+            <span>${formatCurrency(item.price)} x ${item.quantity}</span>
+
+            <div class="qty-controls">
+              <button onclick="decreaseQuantity(${item.id})">-</button>
+              <strong>${item.quantity}</strong>
+              <button onclick="increaseQuantity(${item.id})">+</button>
+            </div>
+          </div>
+
+          <button class="remove-btn" onclick="removeFromCart(${item.id})">×</button>
+        </div>
+      `).join("")}
+    </div>
+  `;
+}
+
+// Ações
+function changeCategory(categoryId) {
+  activeCategory = categoryId;
+  renderCategories();
+  renderProducts();
+}
+
+function addToCart(productId) {
+  const product = products.find(item => item.id === productId);
+  const productInCart = cart.find(item => item.id === productId);
+
+  if (productInCart) {
+    productInCart.quantity++;
+  } else {
+    cart.push({ ...product, quantity: 1 });
+  }
+
+  showToast("Item adicionado ao pedido");
+  renderCart();
+}
+
+function increaseQuantity(productId) {
+  const productInCart = cart.find(item => item.id === productId);
+  productInCart.quantity++;
+  renderCart();
+}
+
+function decreaseQuantity(productId) {
+  const productInCart = cart.find(item => item.id === productId);
+
+  if (productInCart.quantity > 1) {
+    productInCart.quantity--;
+  } else {
+    cart = cart.filter(item => item.id !== productId);
+  }
+
+  renderCart();
+}
+
+function removeFromCart(productId) {
+  cart = cart.filter(item => item.id !== productId);
+  renderCart();
+}
+
+// Finalizar Pedido
+function finishOrder() {
+  if (cart.length === 0) {
+    showToast("Adicione pelo menos um item");
+    return;
+  }
+
+  const nameValue = customerName.value.trim();
+  const deliveryValue = deliveryType.value;
+  const addressValue = address.value.trim();
+  const noteValue = note.value.trim();
+
+  if (!nameValue) {
+    showToast("Informe seu nome");
+    customerName.focus();
+    return;
+  }
+
+  if (deliveryValue === "Delivery" && !addressValue) {
+    showToast("Informe o endereço");
+    address.focus();
+    return;
+  }
+
+  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+  const itemsText = cart.map(item => {
+    const subtotal = item.price * item.quantity;
+    return `• ${item.quantity}x ${item.name} - ${formatCurrency(subtotal)}`;
+  }).join("\n");
+
+  const message = `Olá, Helen Bolos & Foodtruck! Gostaria de fazer um pedido.\n\n` +
+    `*Nome:* ${nameValue}\n` +
+    `*Tipo:* ${deliveryValue}\n` +
+    `${deliveryValue === "Delivery" ? `*Endereço:* ${addressValue}\n` : ""}` +
+    `\n*Pedido:*\n${itemsText}\n\n` +
+    `*Total:* ${total.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}\n` +
+    `${noteValue ? `\n*Observações:* ${noteValue}\n` : ""}` +
+    `\nPode confirmar meu pedido?`;
+
+  const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+  window.open(whatsappUrl, "_blank");
+}
+
+// Inicialização
+function init() {
+  // Event listener para tipo de entrega
+  deliveryType.addEventListener("change", () => {
+    addressGroup.style.display = deliveryType.value === "Delivery" ? "block" : "none";
+  });
+
+  // Event listener para busca
+  searchInput.addEventListener("input", renderProducts);
+
+  // Event listener para finalizar pedido
+  finishOrderBtn.addEventListener("click", finishOrder);
+
+  // Renderização inicial
+  renderCategories();
+  renderProducts();
+  renderCart();
+}
+
+// Iniciar app quando DOM estiver pronto
+document.addEventListener("DOMContentLoaded", init);

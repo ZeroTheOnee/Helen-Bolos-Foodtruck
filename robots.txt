@@ -1,0 +1,7 @@
+# Robots.txt - Helen Bolos & Foodtruck
+# https://helen-bolos-foodtruck.com.br/
+
+User-agent: *
+Allow: /
+
+Sitemap: https://helen-bolos-foodtruck.com.br/sitemap.xml

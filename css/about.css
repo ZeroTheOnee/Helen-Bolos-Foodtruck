@@ -1,0 +1,32 @@
+/* ========================================
+   About - Seção Sobre
+   ======================================== */
+
+.about {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 34px;
+  align-items: center;
+}
+
+.about-image {
+  min-height: 410px;
+  border-radius: 32px;
+  border: 1px solid var(--border);
+  background:
+    linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.72)),
+    url("../img/sobre.png") center/cover;
+  box-shadow: var(--shadow);
+}
+
+.about-text p {
+  color: var(--muted);
+  line-height: 1.8;
+  margin-top: 14px;
+}

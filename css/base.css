@@ -1,0 +1,47 @@
+/* ========================================
+   Base - Variáveis e Reset
+   ======================================== */
+
+:root {
+  --bg: #090705;
+  --bg-soft: #120d09;
+  --card: #18110b;
+  --card-light: #21170f;
+  --gold: #dca453;
+  --gold-soft: #f2c77b;
+  --text: #fff8ed;
+  --muted: #b8a996;
+  --danger: #ff6464;
+  --border: rgba(220, 164, 83, 0.22);
+  --shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(220, 164, 83, 0.18), transparent 35%),
+    radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.07), transparent 28%),
+    var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.container {
+  width: min(1180px, 92%);
+  margin: 0 auto;
+}
