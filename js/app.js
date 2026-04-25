@@ -159,6 +159,13 @@ const products = [
     price: 6.00,
     tag: "Popular"
   },
+  {    id: 7,
+    category: "hamburgueres",
+    name: "X-Calabresa",
+    description: "Pão, hambúrguer, queijo, calabresa, alface, tomate, maionese",
+    price: 15.50,
+    tag: "Calabresa"
+  },
   {
     id: 6,
     category: "bolos",
