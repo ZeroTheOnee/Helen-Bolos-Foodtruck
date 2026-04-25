@@ -71,7 +71,7 @@ const products = [
     name: "X-Salada",
     description: "Pão, hambúrguer, queijo, alface, tomate, maionese",
     price: 11.00,
-    tag: "Crocante"
+    tag: "Salada"
   },
   {
     id: 4,
@@ -141,7 +141,7 @@ const products = [
     name: "Americano",
     description: "Pão, hambúrguer, maionese, alface, tomate",
     price: 8.00,
-    tag: "Mais pedido"
+    tag: "popular"
   },
   {
     id: 23,
