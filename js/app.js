@@ -213,8 +213,8 @@ const products = [
     id: 14,
     category: "bebidas",
     name: "cerveja",
-    description: "cerveja sabor original.",
-    price: 12.00,
+    description: "cerveja lata.",
+    price: 5.00,
     tag: "Gelada"
   },
   {
