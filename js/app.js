@@ -337,9 +337,12 @@ function updateStatus() {
   const minutes = now.getMinutes();
   const currentTime = hours * 60 + minutes;
 
-  // Horário de funcionamento: 19:00 - 22:00 (1140 - 1320 minutos)
+  // Horário de funcionamento
+  // Segunda a sexta: 19:00 - 22:00
+  // Sábado e domingo: 19:00 - 23:00
   const startTime = 19 * 60; // 19:00
-  const endTime = 22 * 60;   // 22:00
+  const isWeekend = day === 0 || day === 6; // 0 = domingo, 6 = sábado
+  const endTime = isWeekend ? 23 * 60 : 22 * 60; // 23:00 nos fins de semana, 22:00 nos dias úteis
 
   const statusHours = document.getElementById("statusHours");
   const statusOpen = document.getElementById("statusOpen");
@@ -357,12 +360,12 @@ function updateStatus() {
   const isOpen = currentTime >= startTime && currentTime < endTime;
 
   if (isOpen) {
-    statusHours.textContent = "19:00 - 22:00";
+    statusHours.textContent = isWeekend ? "19:00 - 23:00" : "19:00 - 22:00";
     statusHours.style.color = "#51cf66";
     statusOpen.textContent = "🟢 Aberto";
     statusOpen.className = "status-indicator open";
   } else {
-    statusHours.textContent = "19:00 - 22:00";
+    statusHours.textContent = isWeekend ? "19:00 - 23:00" : "19:00 - 22:00";
     statusHours.style.color = "#ff6b6b";
     statusOpen.textContent = "🔴 Fechado";
     statusOpen.className = "status-indicator closed";
