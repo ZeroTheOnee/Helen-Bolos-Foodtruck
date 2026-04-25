@@ -329,6 +329,46 @@ const toast = document.getElementById("toast");
 // Taxa de entrega
 let deliveryFee = 0;
 
+// Status de Funcionamento
+function updateStatus() {
+  const now = new Date();
+  const day = now.getDay(); // 0 = domingo, 1 = segunda, 2 = terça, etc.
+  const hours = now.getHours();
+  const minutes = now.getMinutes();
+  const currentTime = hours * 60 + minutes;
+
+  // Horário de funcionamento: 19:00 - 22:00 (1140 - 1320 minutos)
+  const startTime = 19 * 60; // 19:00
+  const endTime = 22 * 60;   // 22:00
+
+  const statusHours = document.getElementById("statusHours");
+  const statusOpen = document.getElementById("statusOpen");
+
+  // Terça-feira (dia 2) é fechado
+  if (day === 2) {
+    statusHours.textContent = "Fechado";
+    statusHours.style.color = "#ff6b6b";
+    statusOpen.textContent = "";
+    statusOpen.className = "status-indicator closed";
+    return;
+  }
+
+  // Verificar se está dentro do horário
+  const isOpen = currentTime >= startTime && currentTime < endTime;
+
+  if (isOpen) {
+    statusHours.textContent = "19:00 - 22:00";
+    statusHours.style.color = "#51cf66";
+    statusOpen.textContent = "🟢 Aberto";
+    statusOpen.className = "status-indicator open";
+  } else {
+    statusHours.textContent = "19:00 - 22:00";
+    statusHours.style.color = "#ff6b6b";
+    statusOpen.textContent = "🔴 Fechado";
+    statusOpen.className = "status-indicator closed";
+  }
+}
+
 // Funções Utilitárias
 function formatCurrency(value) {
   if (!value) return "Consultar";
@@ -637,6 +677,10 @@ function init() {
   renderCategories();
   renderProducts();
   renderCart();
+  updateStatus();
+
+  // Atualizar status a cada minuto
+  setInterval(updateStatus, 60000);
 }
 
 // Iniciar app quando DOM estiver pronto
