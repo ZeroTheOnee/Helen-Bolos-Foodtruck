@@ -202,7 +202,37 @@
 
                         <div class="form-group" id="addressGroup" style="display: none;">
                             <label for="address">Pontos De Referencia <span aria-hidden="true">*</span></label>
-                            <input type="text" id="address" placeholder="Rua, número, complemento" required>
+                            <input type="text" id="address" placeholder="informe um ou mais pontos de referencias" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="paymentMethod">Forma de pagamento <span aria-hidden="true">*</span></label>
+                            <select id="paymentMethod" aria-label="Selecione a forma de pagamento">
+                                <option value="">Selecione</option>
+                                <option value="Dinheiro">💵 Dinheiro</option>
+                                <option value="Pix">📱 Pix</option>
+                                <option value="Cartao">💳 Cartão</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" id="changeGroup" style="display: none;">
+                            <label for="changeAmount">Precisa de troco? <span aria-hidden="true">*</span></label>
+                            <select id="changeAmount" aria-label="Selecione se precisa de troco">
+                                <option value="Não">Não preciso de troco</option>
+                                <option value="10">Troco para R$ 10,00</option>
+                                <option value="20">Troco para R$ 20,00</option>
+                                <option value="30">Troco para R$ 30,00</option>
+                                <option value="50">Troco para R$ 50,00</option>
+                                <option value="100">Troco para R$ 100,00</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" id="machineGroup" style="display: none;">
+                            <label for="needMachine">Levar a maquininha? <span aria-hidden="true">*</span></label>
+                            <select id="needMachine" aria-label="Selecione se precisa da maquininha">
+                                <option value="Não">Não</option>
+                                <option value="Sim">Sim, preciso da maquininha</option>
+                            </select>
                         </div>
 
                         <div class="form-group">

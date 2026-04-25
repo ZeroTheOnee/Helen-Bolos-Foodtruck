@@ -318,6 +318,11 @@ const deliveryLocation = document.getElementById("deliveryLocation");
 const addressGroup = document.getElementById("addressGroup");
 const locationGroup = document.getElementById("locationGroup");
 const address = document.getElementById("address");
+const paymentMethod = document.getElementById("paymentMethod");
+const changeGroup = document.getElementById("changeGroup");
+const changeAmount = document.getElementById("changeAmount");
+const machineGroup = document.getElementById("machineGroup");
+const needMachine = document.getElementById("needMachine");
 const note = document.getElementById("note");
 const toast = document.getElementById("toast");
 
@@ -501,6 +506,9 @@ function finishOrder() {
   const deliveryValue = deliveryType.value;
   const locationValue = deliveryLocation.value;
   const addressValue = address.value.trim();
+  const paymentValue = paymentMethod.value;
+  const changeValue = changeAmount.value;
+  const machineValue = needMachine.value;
   const noteValue = note.value.trim();
 
   if (!nameValue) {
@@ -521,12 +529,18 @@ function finishOrder() {
     return;
   }
 
+  if (!paymentValue) {
+    showToast("Selecione a forma de pagamento");
+    paymentMethod.focus();
+    return;
+  }
+
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const total = subtotal + deliveryFee;
 
   const itemsText = cart.map(item => {
-    const subtotal = item.price * item.quantity;
-    return `• ${item.quantity}x ${item.name} - ${formatCurrency(subtotal)}`;
+    const itemSubtotal = item.price * item.quantity;
+    return `• ${item.quantity}x ${item.name} - ${formatCurrency(itemSubtotal)}`;
   }).join("\n");
 
   let deliveryInfo = "";
@@ -534,10 +548,20 @@ function finishOrder() {
     deliveryInfo = `*Local:* ${locationValue}\n*Taxa entrega:* ${formatCurrency(deliveryFee)}\n*Endereço:* ${addressValue}\n`;
   }
 
+  let paymentInfo = "";
+  if (paymentValue === "Dinheiro") {
+    paymentInfo = `*Pagamento:* ${paymentValue}\n*Troco:* ${changeValue === "Não" ? "Não precisa" : `Para ${formatCurrency(parseFloat(changeValue))}`}\n`;
+  } else if (paymentValue === "Pix") {
+    paymentInfo = `*Pagamento:* ${paymentValue}\n`;
+  } else if (paymentValue === "Cartao") {
+    paymentInfo = `*Pagamento:* ${paymentValue}\n*Maquininha:* ${machineValue}\n`;
+  }
+
   const message = `Olá, Helen Bolos & Foodtruck! Gostaria de fazer um pedido.\n\n` +
     `*Nome:* ${nameValue}\n` +
     `*Tipo:* ${deliveryValue}\n` +
     `${deliveryInfo}` +
+    `${paymentInfo}` +
     `\n*Pedido:*\n${itemsText}\n\n` +
     `*Subtotal:* ${formatCurrency(subtotal)}\n` +
     `${deliveryValue === "Delivery" ? `*Taxa entrega:* ${formatCurrency(deliveryFee)}\n` : ""}` +
@@ -581,6 +605,26 @@ function init() {
     }
     
     renderCart();
+  });
+
+  // Event listener para forma de pagamento
+  paymentMethod.addEventListener("change", () => {
+    const payment = paymentMethod.value;
+    
+    if (payment === "Dinheiro") {
+      changeGroup.style.display = "block";
+      machineGroup.style.display = "none";
+      needMachine.value = "Não";
+    } else if (payment === "Cartao") {
+      changeGroup.style.display = "none";
+      changeAmount.value = "Não";
+      machineGroup.style.display = "block";
+    } else {
+      changeGroup.style.display = "none";
+      changeAmount.value = "Não";
+      machineGroup.style.display = "none";
+      needMachine.value = "Não";
+    }
   });
 
   // Event listener para busca
