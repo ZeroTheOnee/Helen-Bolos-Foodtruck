@@ -314,10 +314,15 @@ const cartCountHeader = document.getElementById("cartCountHeader");
 const finishOrderBtn = document.getElementById("finishOrderBtn");
 const customerName = document.getElementById("customerName");
 const deliveryType = document.getElementById("deliveryType");
+const deliveryLocation = document.getElementById("deliveryLocation");
 const addressGroup = document.getElementById("addressGroup");
+const locationGroup = document.getElementById("locationGroup");
 const address = document.getElementById("address");
 const note = document.getElementById("note");
 const toast = document.getElementById("toast");
+
+// Taxa de entrega
+let deliveryFee = 0;
 
 // Funções Utilitárias
 function formatCurrency(value) {
@@ -386,8 +391,9 @@ function renderProducts() {
 }
 
 function renderCart() {
-  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const total = subtotal + deliveryFee;
 
   cartCountHeader.textContent = totalItems;
   cartTotal.textContent = total.toLocaleString("pt-BR", {
@@ -404,6 +410,17 @@ function renderCart() {
       </div>
     `;
     return;
+  }
+
+  let deliveryInfo = "";
+  if (deliveryType.value === "Delivery" && deliveryLocation.value) {
+    const locationName = deliveryLocation.value;
+    deliveryInfo = `
+      <div class="cart-delivery-info">
+        <span>📍 ${locationName}</span>
+        <span>Taxa: ${formatCurrency(deliveryFee)}</span>
+      </div>
+    `;
   }
 
   cartContent.innerHTML = `
@@ -425,6 +442,7 @@ function renderCart() {
         </div>
       `).join("")}
     </div>
+    ${deliveryInfo}
   `;
 }
 
@@ -481,6 +499,7 @@ function finishOrder() {
 
   const nameValue = customerName.value.trim();
   const deliveryValue = deliveryType.value;
+  const locationValue = deliveryLocation.value;
   const addressValue = address.value.trim();
   const noteValue = note.value.trim();
 
@@ -490,24 +509,38 @@ function finishOrder() {
     return;
   }
 
+  if (deliveryValue === "Delivery" && !locationValue) {
+    showToast("Selecione o local de entrega");
+    deliveryLocation.focus();
+    return;
+  }
+
   if (deliveryValue === "Delivery" && !addressValue) {
     showToast("Informe o endereço");
     address.focus();
     return;
   }
 
-  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const total = subtotal + deliveryFee;
 
   const itemsText = cart.map(item => {
     const subtotal = item.price * item.quantity;
     return `• ${item.quantity}x ${item.name} - ${formatCurrency(subtotal)}`;
   }).join("\n");
 
+  let deliveryInfo = "";
+  if (deliveryValue === "Delivery") {
+    deliveryInfo = `*Local:* ${locationValue}\n*Taxa entrega:* ${formatCurrency(deliveryFee)}\n*Endereço:* ${addressValue}\n`;
+  }
+
   const message = `Olá, Helen Bolos & Foodtruck! Gostaria de fazer um pedido.\n\n` +
     `*Nome:* ${nameValue}\n` +
     `*Tipo:* ${deliveryValue}\n` +
-    `${deliveryValue === "Delivery" ? `*Endereço:* ${addressValue}\n` : ""}` +
+    `${deliveryInfo}` +
     `\n*Pedido:*\n${itemsText}\n\n` +
+    `*Subtotal:* ${formatCurrency(subtotal)}\n` +
+    `${deliveryValue === "Delivery" ? `*Taxa entrega:* ${formatCurrency(deliveryFee)}\n` : ""}` +
     `*Total:* ${total.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}\n` +
     `${noteValue ? `\n*Observações:* ${noteValue}\n` : ""}` +
     `\nPode confirmar meu pedido?`;
@@ -520,7 +553,34 @@ function finishOrder() {
 function init() {
   // Event listener para tipo de entrega
   deliveryType.addEventListener("change", () => {
-    addressGroup.style.display = deliveryType.value === "Delivery" ? "block" : "none";
+    const isDelivery = deliveryType.value === "Delivery";
+    locationGroup.style.display = isDelivery ? "block" : "none";
+    addressGroup.style.display = "none";
+    
+    // Resetar valores quando mudar para retirada
+    if (!isDelivery) {
+      deliveryLocation.value = "";
+      address.value = "";
+      deliveryFee = 0;
+      renderCart();
+    }
+  });
+
+  // Event listener para local de entrega
+  deliveryLocation.addEventListener("change", () => {
+    const selectedOption = deliveryLocation.options[deliveryLocation.selectedIndex];
+    const fee = parseFloat(selectedOption.getAttribute("data-fee")) || 0;
+    deliveryFee = fee;
+    
+    if (fee > 0) {
+      addressGroup.style.display = "block";
+      showToast(`Taxa de entrega: ${formatCurrency(fee)}`);
+    } else {
+      addressGroup.style.display = "none";
+      address.value = "";
+    }
+    
+    renderCart();
   });
 
   // Event listener para busca
