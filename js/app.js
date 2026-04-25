@@ -4,6 +4,9 @@
 
 // Configurações
 const WHATSAPP_NUMBER = "558881199399"; // Helen Bolos & Foodtruck
+const PIX_KEY = "88981199399";
+const PIX_RECEIVER = "Maria Helenilda Rodrigues Veras";
+const PIX_BANK = "Mercado Pago";
 
 const categories = [
   { id: "hamburgueres", name: "Hambúrgueres" },
@@ -321,6 +324,7 @@ const address = document.getElementById("address");
 const paymentMethod = document.getElementById("paymentMethod");
 const changeGroup = document.getElementById("changeGroup");
 const changeAmount = document.getElementById("changeAmount");
+const pixKeyGroup = document.getElementById("pixKeyGroup");
 const machineGroup = document.getElementById("machineGroup");
 const needMachine = document.getElementById("needMachine");
 const note = document.getElementById("note");
@@ -595,7 +599,7 @@ function finishOrder() {
   if (paymentValue === "Dinheiro") {
     paymentInfo = `*Pagamento:* ${paymentValue}\n*Troco:* ${changeValue === "Não" ? "Não precisa" : `Para ${formatCurrency(parseFloat(changeValue))}`}\n`;
   } else if (paymentValue === "Pix") {
-    paymentInfo = `*Pagamento:* ${paymentValue}\n`;
+    paymentInfo = `*Pagamento:* ${paymentValue}\n*Chave Pix:* ${PIX_KEY}\n*Recebedora:* ${PIX_RECEIVER}\n*Banco:* ${PIX_BANK}\n`;
   } else if (paymentValue === "Cartao") {
     paymentInfo = `*Pagamento:* ${paymentValue}\n*Maquininha:* ${machineValue}\n`;
   }
@@ -656,14 +660,23 @@ function init() {
     
     if (payment === "Dinheiro") {
       changeGroup.style.display = "block";
+      pixKeyGroup.style.display = "none";
       machineGroup.style.display = "none";
       needMachine.value = "Não";
+    } else if (payment === "Pix") {
+      changeGroup.style.display = "none";
+      changeAmount.value = "Não";
+      pixKeyGroup.style.display = "block";
+      machineGroup.style.display = "none";
+      needMachine.selectedIndex = 0;
     } else if (payment === "Cartao") {
       changeGroup.style.display = "none";
       changeAmount.value = "Não";
+      pixKeyGroup.style.display = "none";
       machineGroup.style.display = "block";
     } else {
       changeGroup.style.display = "none";
+      pixKeyGroup.style.display = "none";
       changeAmount.value = "Não";
       machineGroup.style.display = "none";
       needMachine.value = "Não";

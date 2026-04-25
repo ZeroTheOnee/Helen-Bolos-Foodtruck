@@ -299,6 +299,27 @@
   color: var(--text);
 }
 
+.pix-key-box {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 13px 14px;
+  border: 1px solid rgba(255, 193, 7, 0.3);
+  border-radius: 15px;
+  background: rgba(255, 193, 7, 0.12);
+  color: #ffc107;
+}
+
+.pix-key-box strong {
+  color: var(--gold-soft);
+  font-size: 1rem;
+}
+
+.pix-key-box span {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
 .total-box {
   display: flex;
   align-items: center;
