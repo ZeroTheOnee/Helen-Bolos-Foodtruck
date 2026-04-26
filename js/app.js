@@ -325,7 +325,7 @@ const paymentMethod = document.getElementById("paymentMethod");
 const changeGroup = document.getElementById("changeGroup");
 const changeAmount = document.getElementById("changeAmount");
 const pixKeyGroup = document.getElementById("pixKeyGroup");
-const copyPixBtn = document.getElementById("copyPixBtn");
+const copyPixBtns = document.querySelectorAll(".copy-pix-btn");
 const machineGroup = document.getElementById("machineGroup");
 const needMachine = document.getElementById("needMachine");
 const note = document.getElementById("note");
@@ -396,13 +396,15 @@ function showToast(message) {
   }, 1800);
 }
 
-async function copyPixKey() {
+async function copyPixKey(event) {
+  const pixKey = event.currentTarget.dataset.pixKey || PIX_KEY;
+
   try {
-    await navigator.clipboard.writeText(PIX_KEY);
+    await navigator.clipboard.writeText(pixKey);
     showToast("Chave Pix copiada");
   } catch (error) {
     const temporaryInput = document.createElement("input");
-    temporaryInput.value = PIX_KEY;
+    temporaryInput.value = pixKey;
     document.body.appendChild(temporaryInput);
     temporaryInput.select();
     document.execCommand("copy");
@@ -699,7 +701,9 @@ function init() {
     }
   });
 
-  copyPixBtn.addEventListener("click", copyPixKey);
+  copyPixBtns.forEach(button => {
+    button.addEventListener("click", copyPixKey);
+  });
 
   // Event listener para busca
   searchInput.addEventListener("input", renderProducts);
