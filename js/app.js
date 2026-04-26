@@ -599,7 +599,7 @@ function finishOrder() {
   if (paymentValue === "Dinheiro") {
     paymentInfo = `*Pagamento:* ${paymentValue}\n*Troco:* ${changeValue === "Não" ? "Não precisa" : `Para ${formatCurrency(parseFloat(changeValue))}`}\n`;
   } else if (paymentValue === "Pix") {
-    paymentInfo = `*Pagamento:* ${paymentValue}\n*Chave Pix:* ${PIX_KEY}\n*Recebedora:* ${PIX_RECEIVER}\n*Banco:* ${PIX_BANK}\n`;
+    paymentInfo = `*Pagamento:* ${paymentValue}\n`;
   } else if (paymentValue === "Cartao") {
     paymentInfo = `*Pagamento:* ${paymentValue}\n*Maquininha:* ${machineValue}\n`;
   }
