@@ -266,7 +266,8 @@ const products = [
     name: "tudao artesanal",
     description: "acompanha batata frita.",
     price: 33.99,
-    tag: "Tudão"
+    tag: "Tudão",
+    image: "img/tudao.jpeg"
 },
   // Batatas
   {
@@ -444,6 +445,7 @@ function renderProducts() {
 
   productsGrid.innerHTML = filteredProducts.map(product => `
     <article class="product-card">
+      ${product.image ? `<img class="product-image" src="${product.image}" alt="${product.name}" loading="lazy">` : ""}
       <div class="product-top">
         <div>
           <h3>${product.name}</h3>

@@ -109,6 +109,14 @@
   min-height: 245px;
 }
 
+.product-image {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
 .product-top {
   display: flex;
   align-items: flex-start;
