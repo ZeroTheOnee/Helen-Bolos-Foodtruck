@@ -325,6 +325,7 @@ const paymentMethod = document.getElementById("paymentMethod");
 const changeGroup = document.getElementById("changeGroup");
 const changeAmount = document.getElementById("changeAmount");
 const pixKeyGroup = document.getElementById("pixKeyGroup");
+const copyPixBtn = document.getElementById("copyPixBtn");
 const machineGroup = document.getElementById("machineGroup");
 const needMachine = document.getElementById("needMachine");
 const note = document.getElementById("note");
@@ -393,6 +394,21 @@ function showToast(message) {
   setTimeout(() => {
     toast.classList.remove("show");
   }, 1800);
+}
+
+async function copyPixKey() {
+  try {
+    await navigator.clipboard.writeText(PIX_KEY);
+    showToast("Chave Pix copiada");
+  } catch (error) {
+    const temporaryInput = document.createElement("input");
+    temporaryInput.value = PIX_KEY;
+    document.body.appendChild(temporaryInput);
+    temporaryInput.select();
+    document.execCommand("copy");
+    temporaryInput.remove();
+    showToast("Chave Pix copiada");
+  }
 }
 
 // Renderização
@@ -682,6 +698,8 @@ function init() {
       needMachine.value = "Não";
     }
   });
+
+  copyPixBtn.addEventListener("click", copyPixKey);
 
   // Event listener para busca
   searchInput.addEventListener("input", renderProducts);

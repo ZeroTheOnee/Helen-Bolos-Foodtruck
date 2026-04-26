@@ -315,6 +315,29 @@
   font-size: 1rem;
 }
 
+.pix-key-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.copy-pix-btn {
+  border: 1px solid rgba(255, 193, 7, 0.45);
+  border-radius: 10px;
+  background: rgba(255, 193, 7, 0.18);
+  color: var(--gold-soft);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 900;
+  padding: 8px 10px;
+}
+
+.copy-pix-btn:hover {
+  filter: brightness(1.08);
+}
+
 .pix-key-box span {
   color: var(--muted);
   font-size: 0.82rem;
