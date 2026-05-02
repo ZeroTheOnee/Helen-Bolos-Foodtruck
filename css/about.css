@@ -21,7 +21,7 @@
   border: 1px solid var(--border);
   background:
     linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.72)),
-    url("../img/sobre.png") center/cover;
+    url("../img/sobre\ leve.jpg") center/cover;
   box-shadow: var(--shadow);
 }
 
