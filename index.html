@@ -62,6 +62,19 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap"
         rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap"
+            rel="stylesheet">
+    </noscript>
+
+    <link
+        rel="preload"
+        as="image"
+        href="img/hambuguer-1200.jpg"
+        imagesrcset="img/hambuguer-800.jpg 800w, img/hambuguer-1200.jpg 1200w"
+        imagesizes="(max-width: 980px) 92vw, 42vw"
+        fetchpriority="high">
 
     <!-- Arquivos CSS externos -->
     <link rel="stylesheet" href="css/style.css">
@@ -138,6 +151,18 @@
                 </div>
 
                 <div class="hero-card">
+                    <picture>
+                        <source
+                            srcset="img/hambuguer-800.jpg 800w, img/hambuguer-1200.jpg 1200w"
+                            sizes="(max-width: 980px) 92vw, 42vw">
+                        <img
+                            src="img/hambuguer-1200.jpg"
+                            alt="Hamburguer artesanal da Helen Bolos e Foodtruck"
+                            width="1200"
+                            height="997"
+                            fetchpriority="high"
+                            decoding="async">
+                    </picture>
                     <div class="hero-card-info">
                         <h2>Helen Bolos e Foodtruck</h2>
                         <p>sabor, qualidade e aquele lanche caprichado que você merece. </p>

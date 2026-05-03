@@ -181,10 +181,32 @@ a {
   border: 1px solid var(--border);
   border-radius: 34px;
   overflow: hidden;
-  background:
-    linear-gradient(to bottom, rgba(0,0,0,0.04), rgba(0,0,0,0.82)),
-    url("../img/hambuguer.jpg") center/cover;
+  background: #140d08;
   box-shadow: var(--shadow);
+}
+
+.hero-card::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: linear-gradient(to bottom, rgba(0,0,0,0.04), rgba(0,0,0,0.82));
+  pointer-events: none;
+}
+
+.hero-card picture,
+.hero-card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-card picture {
+  position: absolute;
+  inset: 0;
+}
+
+.hero-card img {
+  object-fit: cover;
 }
 
 .hero-card-info {
@@ -192,6 +214,7 @@ a {
   left: 22px;
   right: 22px;
   bottom: 22px;
+  z-index: 1;
   padding: 22px;
   border-radius: 26px;
   background: rgba(9, 7, 5, 0.72);
@@ -664,6 +687,8 @@ a {
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
   background: rgba(255, 255, 255, 0.025);
+  content-visibility: auto;
+  contain-intrinsic-size: 720px;
 }
 
 .about-grid {
@@ -697,6 +722,8 @@ a {
   padding: 34px 0;
   color: var(--muted);
   text-align: center;
+  content-visibility: auto;
+  contain-intrinsic-size: 120px;
 }
 
 /* ========================================
