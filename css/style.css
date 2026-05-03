@@ -406,7 +406,9 @@ a {
 }
 
 .product-image {
+  display: block;
   width: 100%;
+  height: clamp(190px, 26vw, 240px);
   aspect-ratio: 16 / 10;
   object-fit: cover;
   border-radius: 18px;
