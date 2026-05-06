@@ -78,6 +78,7 @@
 
     <!-- Arquivos CSS externos -->
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/promocoes.css">
     
     <!-- Script crítico inline para evitar FOUC -->
     <script>
@@ -289,6 +290,15 @@
                                 placeholder="Ex: ponto da carne, sabor do beirute, sabor da pizza..." aria-label="Observações do pedido"></textarea>
                         </div>
 
+                        <div class="form-group coupon-group">
+                            <label for="couponInput">Cupom de desconto</label>
+                            <div class="coupon-row">
+                                <input type="text" id="couponInput" placeholder="Digite seu cupom" aria-label="Cupom de desconto">
+                                <button type="button" id="applyCouponBtn">Aplicar</button>
+                            </div>
+                            <span class="coupon-feedback" id="couponFeedback"></span>
+                        </div>
+
                         <div class="total-box">
                             <span>Total</span>
                             <strong id="cartTotal">R$ 0,00</strong>
@@ -331,6 +341,7 @@
 
     <!-- Arquivo JavaScript externo com defer para carregamento não bloqueante -->
     <script src="js/app.js" defer></script>
+    <script src="js/promocoes.js" defer></script>
 </body>
 
 </html>

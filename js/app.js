@@ -7,6 +7,12 @@ const WHATSAPP_NUMBER = "558881199399"; // Helen Bolos & Foodtruck
 const PIX_KEY = "88981199399";
 const PIX_RECEIVER = "Maria Helenilda Rodrigues Veras";
 const PIX_BANK = "Mercado Pago";
+const VALID_COUPONS = {
+  DESC5: {
+    label: "5% de desconto",
+    percent: 5
+  }
+};
 
 const categories = [
   { id: "hamburgueres", name: "Hambúrgueres" },
@@ -330,10 +336,14 @@ const copyPixBtns = document.querySelectorAll(".copy-pix-btn");
 const machineGroup = document.getElementById("machineGroup");
 const needMachine = document.getElementById("needMachine");
 const note = document.getElementById("note");
+const couponInput = document.getElementById("couponInput");
+const applyCouponBtn = document.getElementById("applyCouponBtn");
+const couponFeedback = document.getElementById("couponFeedback");
 const toast = document.getElementById("toast");
 
 // Taxa de entrega
 let deliveryFee = 0;
+let appliedCoupon = null;
 
 // Status de Funcionamento
 function updateStatus() {
@@ -396,6 +406,62 @@ function showToast(message) {
     toast.classList.remove("show");
   }, 1800);
 }
+
+function getCartSummary() {
+  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const discount = appliedCoupon ? subtotal * (appliedCoupon.percent / 100) : 0;
+  const total = Math.max(0, subtotal - discount) + deliveryFee;
+
+  return {
+    subtotal,
+    totalItems,
+    discount,
+    total
+  };
+}
+
+function setCouponFeedback(message, type = "") {
+  if (!couponFeedback) return;
+
+  couponFeedback.textContent = message;
+  couponFeedback.className = `coupon-feedback ${type}`.trim();
+}
+
+function applyCoupon(code) {
+  const normalizedCode = String(code || "").trim().toUpperCase();
+  const coupon = VALID_COUPONS[normalizedCode];
+
+  if (!normalizedCode) {
+    appliedCoupon = null;
+    setCouponFeedback("");
+    renderCart();
+    return false;
+  }
+
+  if (!coupon) {
+    appliedCoupon = null;
+    setCouponFeedback("Cupom inválido. Use DESC5 para 5% de desconto.", "error");
+    renderCart();
+    return false;
+  }
+
+  appliedCoupon = {
+    code: normalizedCode,
+    ...coupon
+  };
+
+  if (couponInput) {
+    couponInput.value = normalizedCode;
+  }
+
+  setCouponFeedback(`Cupom ${normalizedCode} aplicado: ${coupon.label}.`, "success");
+  showToast("Cupom aplicado ao pedido");
+  renderCart();
+  return true;
+}
+
+window.applyPromoCoupon = applyCoupon;
 
 async function copyPixKey(event) {
   const pixKey = event.currentTarget.dataset.pixKey || PIX_KEY;
@@ -463,9 +529,7 @@ function renderProducts() {
 }
 
 function renderCart() {
-  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-  const total = subtotal + deliveryFee;
+  const { totalItems, discount, total } = getCartSummary();
 
   cartCountHeader.textContent = totalItems;
   cartTotal.textContent = total.toLocaleString("pt-BR", {
@@ -495,6 +559,16 @@ function renderCart() {
     `;
   }
 
+  let discountInfo = "";
+  if (appliedCoupon && discount > 0) {
+    discountInfo = `
+      <div class="coupon-discount-info">
+        <span>Cupom ${appliedCoupon.code}</span>
+        <span>- ${formatCurrency(discount)}</span>
+      </div>
+    `;
+  }
+
   cartContent.innerHTML = `
     <div class="cart-items">
       ${cart.map(item => `
@@ -514,6 +588,7 @@ function renderCart() {
         </div>
       `).join("")}
     </div>
+    ${discountInfo}
     ${deliveryInfo}
   `;
 }
@@ -602,8 +677,7 @@ function finishOrder() {
     return;
   }
 
-  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const total = subtotal + deliveryFee;
+  const { subtotal, discount, total } = getCartSummary();
 
   const itemsText = cart.map(item => {
     const itemSubtotal = item.price * item.quantity;
@@ -624,6 +698,10 @@ function finishOrder() {
     paymentInfo = `*Pagamento:* ${paymentValue}\n*Maquininha:* ${machineValue}\n`;
   }
 
+  const couponInfo = appliedCoupon
+    ? `*Cupom:* ${appliedCoupon.code} (${appliedCoupon.label})\n*Desconto:* -${formatCurrency(discount)}\n`
+    : "";
+
   const message = `Olá, Helen Bolos & Foodtruck! Gostaria de fazer um pedido.\n\n` +
     `*Nome:* ${nameValue}\n` +
     `*Tipo:* ${deliveryValue}\n` +
@@ -631,6 +709,7 @@ function finishOrder() {
     `${paymentInfo}` +
     `\n*Pedido:*\n${itemsText}\n\n` +
     `*Subtotal:* ${formatCurrency(subtotal)}\n` +
+    `${couponInfo}` +
     `${deliveryValue === "Delivery" ? `*Taxa entrega:* ${formatCurrency(deliveryFee)}\n` : ""}` +
     `*Total:* ${total.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}\n` +
     `${noteValue ? `\n*Observações:* ${noteValue}\n` : ""}` +
@@ -705,6 +784,21 @@ function init() {
 
   copyPixBtns.forEach(button => {
     button.addEventListener("click", copyPixKey);
+  });
+
+  applyCouponBtn.addEventListener("click", () => {
+    applyCoupon(couponInput.value);
+  });
+
+  couponInput.addEventListener("input", () => {
+    couponInput.value = couponInput.value.toUpperCase();
+  });
+
+  couponInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      applyCoupon(couponInput.value);
+    }
   });
 
   // Event listener para busca

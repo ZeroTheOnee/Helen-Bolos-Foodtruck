@@ -1,0 +1,308 @@
+﻿/* ========================================
+   Promocoes - Cupom escondido e raspadinha
+   ======================================== */
+
+:root {
+  --promo-gold: #dca453;
+  --promo-gold-soft: #f2c77b;
+  --promo-ink: #1b1208;
+  --promo-paper: #fff8ed;
+  --promo-card: #18110b;
+  --promo-border: rgba(242, 199, 123, 0.34);
+}
+
+.hidden-coupon-trigger {
+  position: fixed;
+  z-index: 90;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(242, 199, 123, 0.25);
+  border-radius: 999px;
+  background: radial-gradient(circle at 35% 25%, #fff1bc, var(--promo-gold) 45%, #8b541f 100%);
+  color: var(--promo-ink);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.34), 0 0 0 8px rgba(220, 164, 83, 0.06);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  font-size: 1.2rem;
+  opacity: 0.28;
+  transform: scale(0.86) rotate(-8deg);
+  transition: opacity 0.2s ease, transform 0.2s ease, filter 0.2s ease;
+  animation: couponPulse 2.8s ease-in-out infinite;
+}
+
+.hidden-coupon-trigger:hover,
+.hidden-coupon-trigger:focus-visible {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+  filter: brightness(1.08);
+  outline: none;
+}
+
+.hidden-coupon-trigger span {
+  pointer-events: none;
+}
+
+.promo-found-pop {
+  position: fixed;
+  inset: 0;
+  z-index: 260;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgba(0, 0, 0, 0.64);
+  backdrop-filter: blur(10px);
+  animation: promoFadeIn 0.2s ease;
+}
+
+.promo-found-card {
+  position: relative;
+  width: min(420px, 100%);
+  overflow: hidden;
+  border: 1px solid var(--promo-border);
+  border-radius: 28px;
+  padding: 30px 24px 24px;
+  text-align: center;
+  background:
+    radial-gradient(circle at top, rgba(242, 199, 123, 0.28), transparent 34%),
+    linear-gradient(145deg, #21170f, #100b07);
+  color: var(--promo-paper);
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.52);
+  animation: promoPop 0.3s cubic-bezier(.2, .9, .2, 1.2);
+}
+
+.promo-found-card::before,
+.promo-found-card::after {
+  content: "";
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: 999px;
+  background: rgba(242, 199, 123, 0.12);
+}
+
+.promo-found-card::before {
+  top: -50px;
+  left: -36px;
+}
+
+.promo-found-card::after {
+  right: -46px;
+  bottom: -54px;
+}
+
+.promo-found-card h2,
+.scratch-card h2 {
+  font-family: "Playfair Display", serif;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+
+.promo-found-card h2 {
+  margin-bottom: 12px;
+  font-size: clamp(1.8rem, 7vw, 2.6rem);
+}
+
+.promo-code-box,
+.scratch-prize-box {
+  position: relative;
+  z-index: 1;
+  margin: 18px auto 20px;
+  padding: 16px;
+  border: 1px dashed rgba(242, 199, 123, 0.72);
+  border-radius: 18px;
+  background: rgba(255, 248, 237, 0.06);
+}
+
+.promo-code-box span,
+.scratch-prize-box span {
+  display: block;
+  color: #cdbda7;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.promo-code-box strong,
+.scratch-prize-box strong {
+  display: block;
+  margin-top: 6px;
+  color: var(--promo-gold-soft);
+  font-size: clamp(1.8rem, 10vw, 2.5rem);
+  letter-spacing: 0.06em;
+}
+
+.promo-action-btn,
+.promo-secondary-btn {
+  position: relative;
+  z-index: 1;
+  border: 0;
+  border-radius: 16px;
+  padding: 13px 18px;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 900;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.promo-action-btn {
+  background: linear-gradient(135deg, var(--promo-gold-soft), var(--promo-gold));
+  color: var(--promo-ink);
+  box-shadow: 0 16px 34px rgba(220, 164, 83, 0.22);
+}
+
+.promo-secondary-btn {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--promo-paper);
+  border: 1px solid var(--promo-border);
+}
+
+.promo-action-btn:hover,
+.promo-secondary-btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.04);
+}
+
+.scratch-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 250;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(12px);
+  animation: promoFadeIn 0.22s ease;
+}
+
+.scratch-card {
+  width: min(440px, 100%);
+  border: 1px solid var(--promo-border);
+  border-radius: 30px;
+  padding: 22px;
+  background:
+    radial-gradient(circle at 80% 10%, rgba(242, 199, 123, 0.22), transparent 28%),
+    linear-gradient(145deg, #22180f, #0e0906);
+  color: var(--promo-paper);
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.55);
+  text-align: center;
+}
+
+.scratch-card h2 {
+  font-size: clamp(1.8rem, 7vw, 2.4rem);
+  margin-bottom: 8px;
+}
+
+.scratch-card p {
+  color: #cdbda7;
+  line-height: 1.55;
+  margin-bottom: 18px;
+}
+
+.scratch-area {
+  position: relative;
+  width: min(340px, 100%);
+  aspect-ratio: 1.62 / 1;
+  margin: 0 auto 18px;
+  overflow: hidden;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  background:
+    linear-gradient(135deg, rgba(242, 199, 123, 0.16), rgba(255, 255, 255, 0.04)),
+    #120d09;
+  box-shadow: inset 0 0 0 1px rgba(242, 199, 123, 0.12);
+  touch-action: none;
+  user-select: none;
+}
+
+.scratch-area::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: linear-gradient(135deg, #f6dfaa, #c79043 52%, #7b4a1d);
+  transition: opacity 0.12s ease;
+  pointer-events: none;
+}
+
+.scratch-area.is-ready::after {
+  opacity: 0;
+}
+
+.scratch-prize {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+}
+
+.scratch-prize-box {
+  width: 100%;
+  margin: 0;
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.scratch-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: grab;
+}
+
+.scratch-canvas:active {
+  cursor: grabbing;
+}
+
+.scratch-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.scratch-redeem {
+  display: none;
+}
+
+.scratch-redeem.is-visible {
+  display: inline-flex;
+}
+
+@keyframes couponPulse {
+  0%, 100% { box-shadow: 0 12px 34px rgba(0, 0, 0, 0.34), 0 0 0 8px rgba(220, 164, 83, 0.06); }
+  50% { box-shadow: 0 12px 34px rgba(0, 0, 0, 0.34), 0 0 0 14px rgba(220, 164, 83, 0.02); }
+}
+
+@keyframes promoFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes promoPop {
+  from { opacity: 0; transform: translateY(12px) scale(0.94); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (max-width: 520px) {
+  .hidden-coupon-trigger {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+
+  .scratch-card,
+  .promo-found-card {
+    border-radius: 24px;
+    padding: 20px 16px;
+  }
+
+  .scratch-area {
+    border-radius: 18px;
+  }
+}
