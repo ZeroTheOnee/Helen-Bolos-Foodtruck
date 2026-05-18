@@ -3,7 +3,7 @@
    ======================================== */
 
 const CONFIG = {
-  promocaoDoDia: "cupom" // valores: "raspadinha", "cupom", "nenhuma"
+  promocaoDoDia: "raspadinha" // valores: "raspadinha", "cupom", "nenhuma"
 
 };
 function podeResgatarPromo() {
